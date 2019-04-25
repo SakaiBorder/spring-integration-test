@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Index</title>
+    </head>
+    <body>
+        <div class="display">
+            <input id="name" name="name" required />
+            <button id="post">Post!</button><br>
+            <div id="response"></div>
+        </div>
+    </body>
+</html>
+
+<script>
+
+const button = document.querySelector('#post');
+button.addEventListener('click', () => {
+    fetch('/name', {
+        method: "POST",
+        body: JSON.stringify({
+            name: document.querySelector('#name').value
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+    .then(response => {
+        return response.json()
+    })
+    .then(jsonData => {
+        document.querySelector('#response').innerHTML = jsonData.response
+    })
+})
+
+</script>
+
+<style>
+.display {
+    text-align: center;
+}
+
+</style>
