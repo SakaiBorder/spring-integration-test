@@ -8,15 +8,15 @@ import org.springframework.messaging.PollableChannel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestChannel {
+public class ByeChannel {
 
     @Bean
-    public MessageChannel inputChannel() {
+    public MessageChannel inputByeChannel() {
         return new DirectChannel();
     }
 
     @Bean
-    public PollableChannel outputChannel() {
+    public PollableChannel outputByeChannel() {
         return new QueueChannel(10);
     }
 }

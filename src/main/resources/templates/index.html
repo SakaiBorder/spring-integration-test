@@ -6,7 +6,8 @@
     <body>
         <div class="display">
             <input id="name" name="name" required />
-            <button id="post">Post!</button><br>
+            <button id="hello">Hello!</button>
+            <button id="bye">Bye!</button><br>
             <div id="response"></div>
         </div>
     </body>
@@ -14,9 +15,28 @@
 
 <script>
 
-const button = document.querySelector('#post');
-button.addEventListener('click', () => {
-    fetch('/name', {
+const helloButton = document.querySelector('#hello');
+helloButton.addEventListener('click', () => {
+    fetch('/hello', {
+        method: "POST",
+        body: JSON.stringify({
+            name: document.querySelector('#name').value
+        }),
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+    .then(response => {
+        return response.json()
+    })
+    .then(jsonData => {
+        document.querySelector('#response').innerHTML = jsonData.response
+    })
+})
+
+const byeButton = document.querySelector('#bye');
+byeButton.addEventListener('click', () => {
+    fetch('/bye', {
         method: "POST",
         body: JSON.stringify({
             name: document.querySelector('#name').value

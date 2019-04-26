@@ -20,11 +20,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController {
 
     @ResponseBody
-    @PostMapping("/name")
-    public ResponseBean post(@RequestBody UserBean user) {
+    @PostMapping("/hello")
+    public ResponseBean hello(@RequestBody UserBean user) {
         try (AbstractApplicationContext context = new AnnotationConfigApplicationContext(IntegrationConfig.class)) {
             MessageChannel inputChannel = context.getBean("inputChannel", MessageChannel.class);
             PollableChannel outputChannel = context.getBean("outputChannel", PollableChannel.class);
+
+            inputChannel.send(new GenericMessage<String>(user.getName()));
+
+            ResponseBean response = new ResponseBean();
+            response.setResponse(outputChannel.receive().getPayload().toString());
+
+            return response;
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/bye")
+    public ResponseBean bye(@RequestBody UserBean user) {
+        try (AbstractApplicationContext context = new AnnotationConfigApplicationContext(IntegrationConfig.class)) {
+            MessageChannel inputChannel = context.getBean("inputByeChannel", MessageChannel.class);
+            PollableChannel outputChannel = context.getBean("outputByeChannel", PollableChannel.class);
 
             inputChannel.send(new GenericMessage<String>(user.getName()));
 
