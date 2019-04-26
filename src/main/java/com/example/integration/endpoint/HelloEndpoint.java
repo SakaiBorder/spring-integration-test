@@ -2,15 +2,16 @@ package com.example.integration.endpoint;
 
 import com.example.integration.service.HelloService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class HelloEndpoint {
 
-    @Autowired
-    private HelloService helloService;
+    final HelloService helloService;
 
     @ServiceActivator(inputChannel = "inputChannel", outputChannel = "outputChannel")
     public String hello(String name) {
